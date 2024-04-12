@@ -4,7 +4,7 @@ import React from 'react'
 
 type TextInputType = {
     label : string,
-    value : string | any,
+    value : any,
     handleChange : (e:any)=>void,
     placeholder : string,
     isPassword? : boolean,
@@ -22,7 +22,7 @@ const CustomeTextInput = ({label,value,handleChange,placeholder,isPassword,isNum
         className={`p-2 z-0 border border-black rounded-[13px] p-4 mb-4 text-[16px]`}
         secureTextEntry={isPassword} 
         value={value} 
-        onChange={handleChange} 
+        onChangeText={handleChange} 
         placeholder={placeholder}
         keyboardType={isNumber ? 'numeric' : 'default'}
         multiline  

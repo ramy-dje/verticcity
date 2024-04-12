@@ -1,28 +1,42 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { useLocalSearchParams } from 'expo-router'
+import axiosInstance from '@/utils/axios'
+import CustomButton from '@/components/Button'
 
 type Props = {}
 
 const Details = (props: Props) => {
+  const {id} = useLocalSearchParams();
+  const [specialist, setspecialist] = useState<any>({});
+  async function getSpecialist() {
+    const {data} = await axiosInstance.get(`/specialiste/${id}`);
+    setspecialist(data.specialiste)
+  }
+  async function addContact() {
+    const {data} = await axiosInstance.put('add_user_contact',{id})
+    console.log(data)
+  }
+  useEffect(()=>{
+    getSpecialist();
+  },[])
   return (
     <ScrollView className='px-3'>
       <View className='flex-row gap-2 mt-16'>
-        <View className='rounded-lg bg-slate-700 w-[150px] h-[150px]'></View>
+        <Image  source={{uri:specialist && specialist.user?.avatar.url}} className='rounded-lg bg-slate-700 w-[150px] h-[150px]'/>
         <View className='pt-6'>
-            <Text className='text-[20px]'>speacialiste name</Text>
-            <Text className='text-[#B2AFAF]'>specialite</Text>
+            <Text className='text-[20px]'>{specialist && specialist.user?.firstName+' '+specialist.user?.lastName}</Text>
+            <Text className='text-[#B2AFAF]'>{specialist && specialist.specialite}</Text>
         </View>
       </View>
       <Text className='text-[20px] mt-5 mb-1'>Description</Text>
       <Text>
-        here the specialist can say something about  his personality or
-        the services he can offer to the cllients here the specialist can say something
-        about  his personality or the services he can offer to the cllients
+      {specialist && specialist.description}
       </Text>
       <Text className='text-[20px] mt-5 mb-1'>studies</Text>
-      <Text>some deplomats</Text>
+      <Text>{specialist && specialist.studies}</Text>
       <Text className='text-[20px] mt-5 mb-1'>profestional experience</Text>
-      <Text>profestional specialist have</Text>
+      <Text>{specialist && specialist.profestionalExp}</Text>
       <Text className='text-[20px] mt-5 mb-1'>projects</Text>
       <View className='pl-2 w-full pb-8'>
         <View className='flex-row justify-between w-full'>
@@ -48,6 +62,10 @@ const Details = (props: Props) => {
         <Text>project duration</Text>
         <Text className='text-[18px] mt-2'>project position</Text>
         <Text>project position</Text>
+        <View className='w-screen mt-8'>
+          <CustomButton text='add contact' handleClick={()=>{addContact()}}/>
+        </View>
+        
       </View>
     </ScrollView>
   )

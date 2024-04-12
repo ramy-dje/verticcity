@@ -24,7 +24,7 @@ const editBlogArticle = (props: Props) => {
   };
   return (
     <ScrollView>
-    <Text className='text-[40px] ml-[25px] mt-16 mb-6'>Publish Article</Text>
+   {/* <Text className='text-[40px] ml-[25px] mt-16 mb-6'>Publish Article</Text>
     <View className='w-full px-3'>
       <View className='flex-row gap-2 items-center'>
           <View className='w-4 h-4 bg-black rounded-full'></View>
@@ -50,7 +50,7 @@ const editBlogArticle = (props: Props) => {
       </View>
       <TextInput multiline placeholder='what is the content of the article ?' className='ml-8 text-[18px]'/>
     </View>
-
+  */}
   </ScrollView>
   )
 }

@@ -21,7 +21,7 @@ const MyStore = (props: Props) => {
   ).current;
   const list = [1,1,1,1]
   return (
-    <View>
+    <View className='bg-white h-screen'>
       <Text className='text-[40px] ml-[25px] mt-16 mb-6'>MyStore</Text>
       <ScrollView className=''>
         <View {...panResponder.panHandlers} className='flex-row gap-3 justify-between items-center border-b border-[#B2AFAF] mx-3 pb-2'>

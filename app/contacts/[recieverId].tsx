@@ -15,8 +15,23 @@ const messages = () => {
             message : 'some message here'
         },
         {
+            sender : 'notme',
+            reciever : 'me',
+            message : 'some message here'
+        },
+        {
             sender : 'me',
             reciever : 'notme',
+            message : 'some message here'
+        },
+        {
+            sender : 'me',
+            reciever : 'notme',
+            message : 'some message here'
+        },
+        {
+            sender : 'notme',
+            reciever : 'me',
             message : 'some message here'
         },
         {
@@ -60,23 +75,8 @@ const messages = () => {
             message : 'some message here'
         },
         {
-            sender : 'me',
-            reciever : 'notme',
-            message : 'some message here'
-        },
-        {
-            sender : 'me',
-            reciever : 'notme',
-            message : 'some message here'
-        },
-        {
-            sender : 'me',
-            reciever : 'notme',
-            message : 'some message here'
-        },
-        {
-            sender : 'me',
-            reciever : 'notme',
+            sender : 'notme',
+            reciever : 'me',
             message : 'some message here'
         },
         {
@@ -142,7 +142,7 @@ const messages = () => {
     ]
   return (
     
-    <ScrollView className='w-full '>
+    <ScrollView className='w-full bg-white'>
         
         <View className='pl-[20px] pt-16 pb-6 flex-row items-center gap-1'>
             <View className='w-[56px] h-[62px] bg-slate-500 rounded-md'></View>
@@ -156,15 +156,15 @@ const messages = () => {
             </View>
             {
                 messages.map((msg,i)=>(
-                    <View className={`w-full flex-row justify-end`}>
-                        <Text key={i} className='p-1 bg-[#009245] my-1 text-white rounded-lg rounded-br-none w-3/5'>{msg.message}</Text>
+                    <View className={`w-full pb-2 flex-row ${msg.sender  == 'me' ? 'justify-end':'justify-start'}`}>
+                        <Text key={i} className='text-[15px] p-1 bg-[#009245] my-1 text-white rounded-lg rounded-br-none w-3/5'>{msg.message}</Text>
                     </View>
                 ))
             }
         </ScrollView>
        
-        <View className='h-[85px] bg-[#009245] w-full rounded-t-lg p-2 flex-row justify-between '>
-            <TextInput placeholder='enter your message here' className='rounded-md w-10/12 h-[60px] bg-white'/>
+        <View className='h-[65px] bg-[#009245] w-full rounded-t-lg p-2 flex-row justify-between items-center  '>
+            <TextInput placeholder='enter your message here' className='rounded-md w-10/12 h-full my-2 bg-white'/>
             <Text>send</Text>
         </View>
         

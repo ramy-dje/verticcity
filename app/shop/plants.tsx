@@ -1,40 +1,71 @@
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import PlantsRow from '@/components/plantsRow'
+import Slider from '@/components/Slider'
+import { router,  } from 'expo-router'
+import axiosInstance from '@/utils/axios'
+import Drawer from 'expo-router/drawer'
+import { AntDesign } from '@expo/vector-icons';
 
-const plants = () => {
+type IPlant = {
+  name : string,
+  id : any,
+  price : number,
+  image:string
+}
+const Plant = ({id,name,price,image}:IPlant)=>{
+  return(
+    <TouchableOpacity className='relative h-[165px]  flex items-center m-3 w-[140px] ' onPress={()=> router.push(`/shop/${id}`)}>
+      <Image
+        source={{uri:image}}
+        className='w-[110px] h-[110px]  '
+      />
+      <Text className='text-[18px] absolute left-0 bottom-6'>{name}</Text>
+      <Text className='text-[#009245] text-[16px] absolute right-0 bottom-0'>{price}DA</Text>
+    </TouchableOpacity>
+  )
+}
+
+const Plants = () => {
+  const [plants, setPlants] = useState<any>(null)
+  async function getPlants(){
+    const {data} = await axiosInstance.get('/plants');
+
+    setPlants(data.plants);
+  }
+  useEffect(()=>{
+    getPlants()
+  },[]);
   return (
-    <ScrollView className='bg-white relative pl-4'>
-      <View className='absolute right-4 top-16'>
-        <Text>Search</Text>
+    <ScrollView className='bg-white px-3'>
+      
+      <View className='mt-16'>
+        <TextInput className='border-2 border-[#009245] text-[16px] p-2 rounded-full relative'/>
+        <View className='bg-[#009245] w-[40px] h-[40px] rounded-full absolute right-1 top-1 flex items-center justify-center'>
+          <AntDesign name="search1" size={28} color="white" />
+        </View>
       </View>
-      <Text className='text-[24px] mt-28'>Today's selection</Text>
-      <View className='flex justify-center '>
-        <LinearGradient
-          colors={['#009245', '#6BF555']}
-          className='w-[90%] h-[150px] rounded-l-lg rounded-tr-[126] rounded-br-[56] mt-4 pt-6 p-3 pr-24 relative'
-          start={{ x: 0, y: 0}}
-          end={{x: 0.7, y: 0.7}}
-          >
-            <Text className='text-[24px] text-white   '>Plant name</Text>
-            <Text className='text-white text-[13px]'>smal describtion about this amazing plant in order to convince some buddy to buy it</Text>
-            <Text className='text-[24px] text-white absolute bottom-4 left-3'>150DA</Text>
-            <Image
-            source={require('../../assets/images/app/model.png')}
-            className='w-[200px] h-[184px] absolute right-[-60px] bottom-0 '
-            />
-          </LinearGradient>
-      </View>
-      <View>
-        <PlantsRow />
-        
+      <Text className='text-[24px] mt-5'>New plants</Text>
+      <View className='flex-row flex-wrap   pb-16 justify-center w-full'>
+        {
+          plants && plants.map((e:any,i:number)=>(
+          <Plant image={e.image.url} id={e._id}  name={e.name} price={e.price} key={i}/>
+          ))
+        }
+
       </View>
 
+
+
+
+
+
+     
     </ScrollView>
   )
 }
 
-export default plants
+export default Plants
 
 const styles = StyleSheet.create({})

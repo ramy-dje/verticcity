@@ -5,7 +5,7 @@ type Props = {}
 
 const mySales = (props: Props) => {
   return (
-    <View>
+    <ScrollView className='bg-white'>
       <Text className='text-[40px] ml-[25px] mt-16 mb-6'>mySales</Text>
       <ScrollView className=''>
         <View className='flex-row gap-3 justify-between border-b border-[#B2AFAF] mx-3 pb-2'>
@@ -26,7 +26,7 @@ const mySales = (props: Props) => {
             </View>
         </View>
       </ScrollView>
-    </View>
+    </ScrollView>
   )
 }
 

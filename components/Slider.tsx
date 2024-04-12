@@ -42,7 +42,7 @@ const Slider = () => {
    const [sliderOpened, setsliderOpened] = useState(false);
   return (
     sliderOpened ? (
-    <View className='w-full h-screen' onTouchEnd={()=>setsliderOpened(false)}>
+    <View className='w-full h-screen bg-red-700' onTouchEnd={()=>setsliderOpened(false)}>
         <LinearGradient
         colors={['#009245', '#6BF555']}
         className='w-3/5 h-screen absolute right-0 p-4 z-10'
@@ -57,7 +57,7 @@ const Slider = () => {
     </View>
    
     ):(
-        <Text className='absolute right-0' onPress={()=>setsliderOpened(true)}>open me</Text>
+        <Text className='absolute right-0' onPress={()=>setsliderOpened(true)}>open meeeeeeeeeeeeeeeee</Text>
     )
 
       
