@@ -12,17 +12,19 @@ const Details = (props: Props) => {
   async function getSpecialist() {
     const {data} = await axiosInstance.get(`/specialiste/${id}`);
     setspecialist(data.specialiste)
+    console.log(data)
   }
   async function addContact() {
-    const {data} = await axiosInstance.put('add_user_contact',{id})
-    console.log(data)
+    const idSpecialist = specialist.user._id;
+    const {data} = await axiosInstance.put('add_user_contact',{idSpecialist})
+    console.log(id)
   }
   useEffect(()=>{
     getSpecialist();
   },[])
   return (
-    <ScrollView className='px-3'>
-      <View className='flex-row gap-2 mt-16'>
+    <ScrollView className='px-3 bg-white'>
+      <View className='flex-row gap-2 mt-4'>
         <Image  source={{uri:specialist && specialist.user?.avatar.url}} className='rounded-lg bg-slate-700 w-[150px] h-[150px]'/>
         <View className='pt-6'>
             <Text className='text-[20px]'>{specialist && specialist.user?.firstName+' '+specialist.user?.lastName}</Text>

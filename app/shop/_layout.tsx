@@ -17,6 +17,7 @@ const _layout = (props: Props) => {
       name='[id]'
       options={{
         headerShown:true,
+        headerTintColor:'#009245',
         headerShadowVisible:false,
         headerTitle:''        
       }}

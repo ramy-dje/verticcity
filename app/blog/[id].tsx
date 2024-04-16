@@ -88,7 +88,7 @@ const blogDetails = () => {
     <ScrollView className='bg-white max-h-fit w-screen '>
       <View className='relative'>
         <TouchableOpacity onPress={()=>router.back()} className='absolute z-20 top-12 left-2 bg-white p-1 rounded-full'>
-          <AntDesign name="arrowleft" size={20} color="black" />
+          <AntDesign name="arrowleft" size={20} color="#009245" />
         </TouchableOpacity>
         <Image source={{uri :blog && blog.image?.url}} className='w-full h-[300px] z-1 '/>
         <View className='absolute text-white bottom-2 right-2 z-20'>

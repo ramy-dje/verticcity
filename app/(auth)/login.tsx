@@ -11,7 +11,7 @@ const Login = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   async function login(){
-    const {data} =await axios.post('http://192.168.1.6:8000/login',{email,password});
+    const {data} =await axios.post('http://192.168.1.7:8000/login',{email,password});
     const {user} = data;
     console.log(user)
     const {accessToken} = data ;

@@ -5,6 +5,7 @@ import CustomButton from '@/components/Button'
 import axios from 'axios'
 import { getFromStore } from '@/utils/secureStore'
 import * as expoSecureStore from 'expo-secure-store'
+import { router } from 'expo-router'
 
 type Props = {}
 
@@ -12,15 +13,16 @@ const ConfirmeAccount = (props: Props) => {
     const [activationCode, setactivationCode] = useState<number>();
     async function confirme(){
       const jwt = await expoSecureStore.getItemAsync('jwt')
-      const {data} = await axios.post('http://192.168.1.6:8000/active',{activationCode},{headers:{  'jwt':`Bearer ${jwt}`} as any })
+      const {data} = await axios.post('http://192.168.1.7:8000/active',{activationCode},{headers:{  'jwt':`Bearer ${jwt}`} as any })
       const {user} = data;
       const {accessToken} = data ;
       const {refreshToken} = data ;
       const userInJson =  JSON.stringify(user);
+      router.push('/shop/plants');
       await expoSecureStore.setItemAsync('refreshToken', refreshToken);
       await expoSecureStore.setItemAsync('accessToken',accessToken);
       await expoSecureStore.setItemAsync('user',userInJson);
-      //await expoSecureStore.deleteItemAsync('jwt');
+      await expoSecureStore.deleteItemAsync('jwt');
     }
     return (
     <View className='relative h-full bg-white'>

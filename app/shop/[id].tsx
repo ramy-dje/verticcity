@@ -74,6 +74,7 @@ const plantDetails = () => {
   const [plant, setPlant] = useState<any>({})
   const [isCommenting, setisCommenting] = useState<boolean>(false);
   const [isLiked, setisLiked] = useState(false)
+  const [isAddedToCart, setisAddedToCart] = useState(false)
   async function getPlant(){
     const {data} = await axiosInstance.get(`/plant/${id}`);
     setPlant(data.plant);
@@ -103,6 +104,7 @@ const plantDetails = () => {
       } else {
         updatedCart = [{ownerId,price,image,name,id,quantity: 1 }];
       }
+      setisAddedToCart(true);
       await saveCart(updatedCart);
     } catch (error) {
       console.error('Error adding to cart:', error);
@@ -144,7 +146,7 @@ const plantDetails = () => {
         <View className='mt-8 flex-row justify-between items-center'>
           <Text className='text-[28px]'>{plant && plant.price}DA</Text>
           <TouchableOpacity className='p-2 rounded-lg bg-[#009245]' onPress={()=>addToCart(id,plant.owner._id,plant.name,plant.image.url,plant.image,plant.price)}>
-            <Text className='text-white text-[18px]'>add to cart</Text>
+            <Text className='text-white text-[18px]'>{isAddedToCart ? 'is added': 'add to cart'}</Text>
           </TouchableOpacity>
         </View>
         <View className='flex-row justify-between items-center mt-6'>

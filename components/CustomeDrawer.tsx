@@ -7,6 +7,7 @@ import { Image, Text, View } from 'react-native';
 import * as expoSecureStore from 'expo-secure-store';
 import { useEffect, useState } from 'react';
 import { router } from 'expo-router';
+import { MaterialIcons } from '@expo/vector-icons';
   
   function CustomDrawerContent(props:any) {
     const [name, setname] = useState('')
@@ -36,7 +37,7 @@ import { router } from 'expo-router';
               </View>
               <DrawerItemList {...props} />
             </View> 
-            <DrawerItem labelStyle={{color:'black'}} label='logout' onPress={logout} />
+            <DrawerItem icon={({color,size})=><MaterialIcons name="logout" size={size} color={color} />} labelStyle={{color:'black'}} label='logout' onPress={logout} />
           </View> 
         </DrawerContentScrollView>
     );

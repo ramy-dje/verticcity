@@ -30,16 +30,16 @@ const Signup = () => {
 
   
   async function signup(){
-    const {data} = await axios.post('http://192.168.1.6:8000/signup',{user})
-      if(data.token && data.activation ){
+    const {data} = await axios.post('http://192.168.1.7:8000/signup',{user})
+      if(data){
         const {token} = data ;
         console.log(token);
+        console.log('token')
         saveInStore('jwt',token)
-        router.replace("/confirme")
+        router.push("/confirme")
       }
-      //router.replace("/confirme")
-    console.log(data)
-      console.log(user);
+      
+    
 
   }
   return (

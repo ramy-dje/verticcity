@@ -4,6 +4,8 @@ import * as expoSecureStore from 'expo-secure-store'
 import CustomButton from '@/components/Button'
 import { useNavigation } from 'expo-router'
 import axiosInstance from '@/utils/axios'
+import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 type ICartItem = {
   name : string,
@@ -43,6 +45,7 @@ const deleteFromCart = async (id:any,setcart:any) => {
   }
 }
 const CartItem = ({id,image,name,price,quantity,setcart}:ICartItem)=>{
+  
   const updateQuantity = async (productId: number, newQuantity: number) => {
     try {
       const existingCart = await getCart();
@@ -61,7 +64,9 @@ const CartItem = ({id,image,name,price,quantity,setcart}:ICartItem)=>{
   
   return(
     <View className='flex-row items-baseline border-b border-[#B2AFAF] mt-4 w-full pb-1 relative'>
-      <View onTouchEnd={()=>deleteFromCart(id,setcart)} className='bg-slate-600 w-16 h-16 absolute top-0 right-1'></View>
+      <TouchableOpacity onPress={()=>deleteFromCart(id,setcart)} className='absolute top-0 right-1'>
+        <AntDesign name="delete" size={26} color="#009245" />
+      </TouchableOpacity>
       <View className='flex-row '>
           <Image
           source={{uri:image && image}}
@@ -69,23 +74,24 @@ const CartItem = ({id,image,name,price,quantity,setcart}:ICartItem)=>{
           /> 
           <View className='mt-8 ml-3'>
               <Text className='text-[20px]'>{name}</Text>
-              <Text className='text-[16px]'>{price}</Text>
+              <Text className='text-[16px]'>{price} DA</Text>
           </View>
      </View>
       <View className='flex-row gap-3  absolute bottom-1 right-3'>
-        <TouchableOpacity>
-          <Text onPress={()=>updateQuantity(id,quantity+1)}>add</Text>
+        <TouchableOpacity onPress={()=>updateQuantity(id,quantity+1)}>
+          <MaterialIcons name="add" size={24} color="#009245" />
         </TouchableOpacity>
-        <Text>{quantity}</Text>
+        <Text>{quantity} </Text>
         <TouchableOpacity onPress={()=>updateQuantity(id,quantity-1)}>
-          <Text>minus</Text>
+          <AntDesign name="minus" size={24} color="#009245" />
         </TouchableOpacity>
       </View>
     </View>
   )
 }
 const Cart = () => {
-  const [cart, setcart] = useState<any>([])
+  const [cart, setcart] = useState<any>([]);
+  const [isConfirmed, setisConfirmed] = useState(false);
   const getCart = async (): Promise<any> => {
     try {
       const cartData : any = await expoSecureStore.getItemAsync('cartData');
@@ -108,11 +114,13 @@ const Cart = () => {
         plantId:e.id,
         quantity : e.quantity
       }))
+      setisConfirmed(true);
       const {data} = await axiosInstance.post('/purchase',{purchases});
       console.log(data)
       if(data.success){
         await expoSecureStore.deleteItemAsync('cartData');
-        setcart([])
+        setcart([]);
+        
       }
     }catch(e:any){
       console.error('Error getting cart:', e);
@@ -121,8 +129,8 @@ const Cart = () => {
 
   return (
     <View className='bg-white'>
-      <TouchableOpacity className='w-[30px] h-[30px] bg-[#009245] rounded-full ml-4 mt-12' onPress={()=>navigation.openDrawer()}>
-        
+      <TouchableOpacity className=' rounded-full ml-4 mt-12' onPress={()=>navigation.openDrawer()}>
+        <Ionicons name="menu-sharp" size={24} color="#009245" />
       </TouchableOpacity>
       <Text className='text-[40px] ml-[25px] mt-8 mb-6'>Cart</Text>
       <Image
@@ -136,7 +144,7 @@ const Cart = () => {
           ))
         }
         <View className='w-full flex-col items-center pt-8'>
-        <CustomButton handleClick={()=>makePurshase()} text='confirme purshase' />
+        <CustomButton handleClick={()=>makePurshase()} text={isConfirmed ? 'confirmed' : 'confirme purshase'} />
         <TouchableOpacity 
         className='h-[60px] w-[90%] rounded-[13px] mt-3 border-2 border-[#009245]  flex justify-center items-center z-20'
         onPress={()=>{}}

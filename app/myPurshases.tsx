@@ -2,6 +2,9 @@ import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import axiosInstance from '@/utils/axios'
 import moment from 'moment'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import { useNavigation } from 'expo-router'
+import { Ionicons } from '@expo/vector-icons'
 
 type Props = {}
 
@@ -21,7 +24,7 @@ const PurshasedItem = ({image,name,quantity,price,seller}:any)=>{
           </View>
         </View>
         <View className='flex-col py-4 justify-center'>
-          <Text className='text-[20px] text-[#009245] pt-1'>{price}DA</Text>
+          <Text className=' text-[20px] text-[#009245] rounded-lg p-1'>{price} DA</Text>
         </View>
     </View>
   )
@@ -37,17 +40,22 @@ const myPurshases = (props: Props) => {
   useEffect(()=>{
     getPurshases();
   },[])
+  const navigation : any = useNavigation();
   return (
-    <View className='w-full h-full bg-white'>
-      <Text className='text-[40px] ml-[25px] mt-6 mb-6'>myPurshases</Text>
+    <View className='w-full h-full bg-white relative'>
+      <Image className='w-[250px] h-[390px] absolute top-0 z-0 right-0' source={require('../assets/images/app/myPurshases.png')}/>
+      <TouchableOpacity onPress={()=>navigation.openDrawer()} className='top-12 left-3'>
+        <Ionicons name="menu-sharp" size={24} color="#009245" />
+      </TouchableOpacity>
+      <Text className='text-[40px] ml-[25px] mt-20 mb-6 z-20 '>myPurshases</Text>
       <ScrollView className=''>
         {
           purshases && purshases.map((purchase:any)=>(
             <View>
               <Text className='text-[#B2AFAF] text-[15px] ml-4 mt-4 text-center'>{moment(purchase.date).format('YYYY-MM-DD')}</Text>
               {
-                purchase.purchases.map((e:any)=>(
-                   <PurshasedItem seller={e.sellerId.firstName+' '+e.sellerId.lastName} image={e.plantId.image.url} name={e.plantId.name} quantity={e.quantity} price={e.price}/>    
+                purchase.purchases.map((e:any,i:number)=>(
+                   <PurshasedItem key={i} seller={e.sellerId.firstName+' '+e.sellerId.lastName} image={e.plantId.image.url} name={e.plantId.name} quantity={e.quantity} price={e.price}/>    
                 ))
               }
               

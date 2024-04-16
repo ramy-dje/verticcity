@@ -63,8 +63,10 @@ const MyAccount = (props: Props) => {
     },[])
 
   return (
-    <ScrollView className='bg-white'>
+    <ScrollView className='bg-white relative'>
         <Text className='text-[40px] ml-[25px] mt-6 mb-6'>MyAccount</Text>
+        <Image className='w-[220px] z-0 h-[470px] transform  absolute bottom-0 z-0 right-0' source={require('../assets/images/app/myAccount.png')}/>
+     
         <View className='w-full flex-row justify-center mb-4'>
                 <View onTouchEnd={pickImage} className='h-[145px] w-[145px] bg-[#D9D9D9] rounded flex-row justify-center items-center'>
                 {image ? <Image source={{ uri: image }} className='w-full h-full rounded' /> :<Text>choose image</Text>}  

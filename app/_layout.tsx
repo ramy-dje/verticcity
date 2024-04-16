@@ -2,13 +2,14 @@ import { StyleSheet, Text, View} from 'react-native'
 import React from 'react'
 import {Drawer} from 'expo-router/drawer'
 import CustomDrawerContent from '@/components/CustomeDrawer'
-import {router, usePathname} from 'expo-router'
-import { AntDesign } from '@expo/vector-icons';
+import {router, useNavigation, usePathname} from 'expo-router'
+import { AntDesign, Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler'
 type Props = {}
 
 const _layout = (props: Props) => {
   const pathName = usePathname();
+  const navigation : any = useNavigation();
   return (
     <Drawer 
     
@@ -73,15 +74,19 @@ const _layout = (props: Props) => {
         options={{
           headerShown:false,
           drawerItemStyle: { display: 'none' },
+          
         }}
         />
         <Drawer.Screen 
         name='shop'
         options={{
+          drawerIcon:({ color, size })=><MaterialCommunityIcons name="storefront-outline" size={size} color={color}  />,
           title : 'store',
           headerTitle:'',
           headerShown:pathName == '/shop/plants',
           headerShadowVisible:false,
+          headerTintColor:'#009245',
+          
           headerRight:()=>(
             <TouchableOpacity className='pr-3' onPress={()=>router.push('/cart')}>
               <AntDesign name="shoppingcart" size={24} color="#009245" />
@@ -92,8 +97,10 @@ const _layout = (props: Props) => {
          <Drawer.Screen 
         name='blog'
         options={{
+          drawerIcon:({size,color})=><MaterialCommunityIcons name="form-select" size={size} color={color} />,
           title:'blogs',
           headerTitle:'',
+          headerTintColor:'#009245',
           headerShown:pathName == '/blog/bloglist',
           headerShadowVisible:false
         }}
@@ -102,7 +109,9 @@ const _layout = (props: Props) => {
         name='specialist'
         options={{
           title:'specialists',
+          drawerIcon:({size,color})=><MaterialCommunityIcons name="account-tie-outline" size={size} color={color} />,
           headerTitle:'',
+          headerTintColor:'#009245',
           headerShown:pathName == '/specialist/search',
           headerShadowVisible:false
         }}
@@ -111,7 +120,9 @@ const _layout = (props: Props) => {
         name='contacts'
         options={{
           title:'my contacts',
+          drawerIcon:({size,color})=><Feather name="users" size={size} color={color} />,
           headerTitle:'',
+          headerTintColor:'#009245',
           headerShown:pathName == '/contacts/mycontacts',
           headerShadowVisible:false
         }}
@@ -120,7 +131,9 @@ const _layout = (props: Props) => {
         name='userAccount'
         options={{
           title :'my account',
+          drawerIcon:({size,color})=><MaterialCommunityIcons name="account-cog-outline" size={size} color={color} />,
           headerTitle:'',
+          headerTintColor:'#009245',
           headerShown:true,
           headerShadowVisible:false
         }}
@@ -129,15 +142,17 @@ const _layout = (props: Props) => {
         name='myPurshases'
         options={{
           headerTitle:'',
+          drawerIcon:({size,color})=><MaterialCommunityIcons name="cart-check" size={size} color={color} />,
           title:'my purshases',
-          headerShown:true,
+          headerShown:false,
           headerShadowVisible:false
         }}
         />
         <Drawer.Screen 
         name='notifications'
         options={{
-          headerShown:true,
+          headerShown:false,
+          drawerIcon:({size,color})=><Feather name="bell" size={size} color={color} />,
           headerTitle:'',
           //drawerItemStyle: { display: 'none' },
         }}

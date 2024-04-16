@@ -8,7 +8,7 @@ const _layout = (props: Props) => {
   return (
     <Stack >
         <Stack.Screen name='search' options={{headerShown:false}} />
-        <Stack.Screen name='[id]' options={{headerShown:true}} />
+        <Stack.Screen name='[id]' options={{headerTitle:'',headerShadowVisible:false,headerTintColor:'#009245',}} />
     </Stack>
   )
 }

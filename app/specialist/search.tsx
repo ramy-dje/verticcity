@@ -2,6 +2,7 @@ import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View 
 import React, { useEffect , useState } from 'react'
 import { router } from 'expo-router'
 import axiosInstance from '@/utils/axios'
+import { AntDesign } from '@expo/vector-icons'
 
 type Props = {}
 const SpecialisteCard = ({name,specialite,hourlyPrice,id,image}:any)=>{
@@ -36,7 +37,9 @@ const SearchSpeacilits = () => {
       <Text className='text-[40px] ml-[25px] mt-6 mb-6'>Specialistes</Text>
       <View>
         <TextInput className='border-2 border-[#009245] mx-3 text-[16px] p-2 rounded-full relative'/>
-        <View className='bg-[#009245] w-[40px] h-[40px] rounded-full absolute right-4 top-1'></View>
+        <View className='bg-[#009245] w-[40px] h-[40px] rounded-full absolute right-4 top-1 flex justify-center items-center'>
+          <AntDesign name="search1" size={28} color="white" />
+        </View>
       </View>
       <View className='px-3 py-8 flex-row justify-center flex-wrap'>
         {
