@@ -9,7 +9,7 @@ const mycontacts = () => {
   const [contacts, setcontacts] = useState([]);
   async function getContacts() {
     const {data} = await axiosInstance.get('getContacts')
-    setcontacts(data);
+    setcontacts(data.contacts);
     console.log(data)
   }
   useEffect(()=>{
@@ -20,17 +20,17 @@ const mycontacts = () => {
       <Image className='w-[310px] z-0 h-[310px] transform  absolute bottom-4 z-0 right-0' source={require('../../assets/images/app/contacts.png')}/>
       <Text className='text-[40px] ml-[25px] mt-8 mb-6'>My contacts</Text>
       <ScrollView className='px-2 z-20'>
-        <TouchableOpacity onPress={()=>router.push('/contacts/sdsd')} className='flex-row justify-between items-baseline border-b border-[#B2AFAF] pb-2 mt-4'>
+        {contacts && contacts.map((e:any)=>(<TouchableOpacity onPress={()=>router.push(`/contacts/${e._id}`)} className='flex-row justify-between items-baseline border-b border-[#B2AFAF] pb-2 mt-4'>
             <View className='gap-1 flex-row gap-1'>
-                <View className='w-[56px] h-[62px] bg-slate-500 rounded-md'></View>
+                <Image source={{uri:e.avatar.url}} className='w-[56px] h-[62px] bg-slate-500 rounded-md'/>
                 <View>
-                    <Text className='text-[20px]'>name</Text>
+                    <Text className='text-[20px]'>{e.firstName + ' ' + e.lastName }</Text>
                     <Text className='text-[16px] text-[#B2AFAF]'>last message sent</Text>
                 </View>
             </View>
             <Text className='text-[16px] text-[#B2AFAF]'>16:47</Text>
         </TouchableOpacity>
-        
+        ))}
       </ScrollView>
     </View>
   )
