@@ -53,8 +53,9 @@ const MyAccount = (props: Props) => {
         setphoneNumber(parsedUser.phoneNumber)
       }
       async function updateUser() {
-        const {data} = await axiosInstance.put("user_information",{firstName,lastName,email,password,location,phoneNumber})//await axiosInstance.put("user_avatar",{avatar:image})  
-        const userInJson =  JSON.stringify(data);
+        const {data} = await axiosInstance.put("user_information",{firstName,lastName,email,password,location,phoneNumber})
+        await axiosInstance.put("user_avatar",{avatar:image})  
+        const userInJson =  JSON.stringify(data.user);
         await expoSecureStore.setItemAsync('user',userInJson);
         console.log(data);
     }

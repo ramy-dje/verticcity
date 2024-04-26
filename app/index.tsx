@@ -11,19 +11,14 @@ const index = () => {
   async function getUser(){
     const userInJson : any = await expoSecureStore.getItemAsync('user');
     setuser(userInJson) 
+    router.push(userInJson ? '/shop/plants':'/(auth)/login')
   }
   useEffect(()=>{
-    getUser();
-  },[])
-  return (
+    getUser()
     
-    <View className='min-h-full w-full relative'>
-      {
-        user ? <Redirect href='/shop/plants'/> : <Redirect href='/(auth)/login'/>
-      }
-      
-    </View>
-
+  },[user])
+  return (
+         <Redirect href={user ?'/shop/plants':'/(auth)/login'}/> 
   )
 }
 

@@ -1,4 +1,4 @@
-import { Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View ,FlatList, VirtualizedList} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import * as expoSecureStore from 'expo-secure-store'
 import CustomButton from '@/components/Button'
@@ -92,6 +92,7 @@ const CartItem = ({id,image,name,price,quantity,setcart}:ICartItem)=>{
 const Cart = () => {
   const [cart, setcart] = useState<any>([]);
   const [isConfirmed, setisConfirmed] = useState(false);
+  const [refreshing, setrefreshing] = useState(false)
   const getCart = async (): Promise<any> => {
     try {
       const cartData : any = await expoSecureStore.getItemAsync('cartData');
@@ -126,6 +127,11 @@ const Cart = () => {
       console.error('Error getting cart:', e);
     }
   }
+  function handleRefresh(){
+    setrefreshing(true);
+    getCart();
+    setrefreshing(false);
+  }
 
   return (
     <View className='bg-white'>
@@ -137,11 +143,20 @@ const Cart = () => {
         source={require('../assets/images/app/cart.jpg')}
         className='w-[350px] h-[230px] absolute top-0 right-[-120px] rotate-[-116deg]'
       />
-      <ScrollView className='p-4 h-5/6'>
+      <View  className='p-4 h-5/6'>
         {
-          cart && cart.map((e:any,i:number)=>(
+          cart && <FlatList 
+          data={cart}
+          renderItem={({item})=>(
+            <CartItem setcart={setcart} id={item.id} image={item.image} name={item.name} price={item.price} quantity={item.quantity} />
+          )}
+          keyExtractor={(e)=>e.id}
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
+          />
+          /*cart && cart.map((e:any,i:number)=>(
             <CartItem setcart={setcart} id={e.id} image={e.image} name={e.name} price={e.price} quantity={e.quantity} key={i} />
-          ))
+          ))*/
         }
         <View className='w-full flex-col items-center pt-8'>
         <CustomButton handleClick={()=>makePurshase()} text={isConfirmed ? 'confirmed' : 'confirme purshase'} />
@@ -153,7 +168,7 @@ const Cart = () => {
         </TouchableOpacity>
       </View>
         <View className='h-32 w-full '></View>
-      </ScrollView>
+      </View>
     </View>
   )
 }

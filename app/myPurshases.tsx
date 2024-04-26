@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, View,FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import axiosInstance from '@/utils/axios'
 import moment from 'moment'
@@ -41,6 +41,12 @@ const myPurshases = (props: Props) => {
     getPurshases();
   },[])
   const navigation : any = useNavigation();
+  const [refreshing, setrefreshing] = useState(false);
+  function handleRefresh(){
+    setrefreshing(true);
+    getPurshases();
+    setrefreshing(false);
+  }
   return (
     <View className='w-full h-full bg-white relative'>
       <Image className='w-[250px] h-[390px] absolute top-0 z-0 right-0' source={require('../assets/images/app/myPurshases.png')}/>
@@ -48,21 +54,26 @@ const myPurshases = (props: Props) => {
         <Ionicons name="menu-sharp" size={24} color="#009245" />
       </TouchableOpacity>
       <Text className='text-[40px] ml-[25px] mt-20 mb-6 z-20 '>myPurshases</Text>
-      <ScrollView className=''>
+     
         {
-          purshases && purshases.map((purchase:any)=>(
+          purshases && <FlatList 
+          data={purshases}
+          renderItem={({item}:any)=>(
             <View>
-              <Text className='text-[#B2AFAF] text-[15px] ml-4 mt-4 text-center'>{moment(purchase.date).format('YYYY-MM-DD')}</Text>
+              <Text className='text-[#B2AFAF] text-[15px] ml-4 mt-4 text-center'>{moment(item.date).format('YYYY-MM-DD')}</Text>
               {
-                purchase.purchases.map((e:any,i:number)=>(
-                   <PurshasedItem key={i} seller={e.sellerId.firstName+' '+e.sellerId.lastName} image={e.plantId.image.url} name={e.plantId.name} quantity={e.quantity} price={e.price}/>    
+                item.purchases.map((e:any,i:number)=>(
+                  <PurshasedItem key={i} seller={e.sellerId.firstName+' '+e.sellerId.lastName} image={e.plantId.image.url} name={e.plantId.name} quantity={e.quantity} price={e.price}/>    
                 ))
               }
-              
-            </View>
-          ))
+          </View>
+          )}
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
+          />
+          
         }
-      </ScrollView>
+     
     </View>
   )
 }
