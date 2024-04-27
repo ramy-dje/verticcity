@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableOpacityBase, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import PlantsRow from '@/components/plantsRow'
@@ -28,11 +28,17 @@ const Plant = ({id,name,price,image}:IPlant)=>{
 }
 
 const Plants = () => {
-  const [plants, setPlants] = useState<any>(null)
+  const [plants, setPlants] = useState<any>(null);
+  const [name, setname] = useState('')
   async function getPlants(){
     const {data} = await axiosInstance.get('/plants');
 
     setPlants(data.plants);
+  }
+  async function getPlantsByName(name:string){
+    const {data} = await axiosInstance.get(`/plantByName/${name}`);
+    setPlants(data.plants);
+    console.log(data.plants);
   }
   useEffect(()=>{
     getPlants()
@@ -41,10 +47,10 @@ const Plants = () => {
     <ScrollView className='bg-white px-3'>
       
       <View className='mt-16'>
-        <TextInput className='border-2 border-[#009245] text-[16px] p-2 rounded-full relative'/>
-        <View className='bg-[#009245] w-[40px] h-[40px] rounded-full absolute right-1 top-1 flex items-center justify-center'>
+        <TextInput onChangeText={(e)=>setname(e)} className='border-2 border-[#009245] text-[16px] p-2 rounded-full relative'/>
+        <TouchableOpacity onPress={()=>getPlantsByName(name)} className='bg-[#009245] w-[40px] h-[40px] rounded-full absolute right-1 top-1 flex items-center justify-center'>
           <AntDesign name="search1" size={28} color="white" />
-        </View>
+        </TouchableOpacity>
       </View>
       <Text className='text-[24px] mt-5'>New plants</Text>
       <View className='flex-row flex-wrap   pb-16 justify-center w-full'>

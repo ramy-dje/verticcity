@@ -4,12 +4,12 @@
     "slug": "verticcity",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/logoWithBg.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "developmentClient": false,
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/logoNoBg.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

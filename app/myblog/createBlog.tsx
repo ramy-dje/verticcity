@@ -52,8 +52,8 @@ const CreateBlogArticle = (props: Props) => {
     
   };
   return (
-    <ScrollView >
-      <Text className='text-[40px] ml-[25px] mt-16 mb-6'>Publish Article</Text>
+    <ScrollView className='bg-white'>
+      <Text className='text-[40px] ml-[25px] mt-6 mb-6'>Publish Article</Text>
       
       <View className='w-full px-3'>
         <View className='flex-row gap-2 items-center'>

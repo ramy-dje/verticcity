@@ -1,15 +1,27 @@
 import { StyleSheet, Text, View} from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {Drawer} from 'expo-router/drawer'
 import CustomDrawerContent from '@/components/CustomeDrawer'
 import {router, useNavigation, usePathname} from 'expo-router'
 import { AntDesign, Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import * as expoSecureStore from 'expo-secure-store'
+
 type Props = {}
 
 const _layout = (props: Props) => {
   const pathName = usePathname();
   const navigation : any = useNavigation();
+  const [role, setrole] = useState('role')
+  async function getUserRole(){
+    const userInJson : any = await expoSecureStore.getItemAsync('user');
+    const parsedUser = JSON.parse(userInJson);
+    setrole(parsedUser.role);
+  }
+
+  useEffect(()=>{
+    getUserRole();
+  },[]);
   return (
     <Drawer 
     
@@ -48,19 +60,27 @@ const _layout = (props: Props) => {
         name='index'
         options={{
           drawerItemStyle: { display: 'none' },
-          headerShadowVisible:false
+          headerShown:false
         }}
         />
         <Drawer.Screen 
         name='store'
         options={{
-          drawerItemStyle: { display: 'none' },
+          drawerIcon:({ color, size })=><MaterialCommunityIcons name="store-edit-outline" size={size} color={color} />,
+          drawerItemStyle: { display:role && role == 'seller'?'flex' :'none' },
+          headerShown:pathName == '/store/myStore',
+          headerTintColor:'#009245',
+          headerTitle:'',
         }}
         />
         <Drawer.Screen 
         name='myblog'
         options={{
-          drawerItemStyle: { display: 'none' },
+          drawerItemStyle: {  display:role && role == 'specialist'?'flex' :'none' },
+          drawerIcon:({ color, size })=><Feather name="edit" size={24} color="black" />,
+          headerTintColor:'#009245',
+          headerTitle:'',
+          headerShown:pathName == '/myblog/blogs',
         }}
         />
         <Drawer.Screen 
@@ -81,7 +101,7 @@ const _layout = (props: Props) => {
         name='shop'
         options={{
           drawerIcon:({ color, size })=><MaterialCommunityIcons name="storefront-outline" size={size} color={color}  />,
-          title : 'store',
+          title : 'shop',
           headerTitle:'',
           headerShown:pathName == '/shop/plants',
           headerShadowVisible:false,

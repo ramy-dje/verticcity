@@ -7,6 +7,18 @@ type Props = {}
 const _layout = (props: Props) => {
   return (
     <Stack>
+      <Stack.Screen 
+      name='myStore' 
+      options={{headerShown:false}} 
+      />
+      <Stack.Screen 
+      name='addPlant' 
+      options={{headerTitle:'',headerShadowVisible:false,headerTintColor:'#009245',}}
+      />
+      <Stack.Screen 
+      name='editPlant' 
+      options={{headerTitle:'',headerShadowVisible:false,headerTintColor:'#009245',}}
+      />
     </Stack>
   )
 }

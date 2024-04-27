@@ -39,36 +39,38 @@ const Details = (props: Props) => {
       <Text>{specialist && specialist.studies}</Text>
       <Text className='text-[20px] mt-5 mb-1'>profestional experience</Text>
       <Text>{specialist && specialist.profestionalExp}</Text>
+      {/*
       <Text className='text-[20px] mt-5 mb-1'>projects</Text>
       <View className='pl-2 w-full pb-8'>
-        <View className='flex-row justify-between w-full'>
-          <Text className='text-[18px]'>project 1</Text>
-          <View className='flex-row gap-12'>
-            <Text>1</Text>
-            <Text>2</Text>
-            <Text>3</Text>
+          <View className='flex-row justify-between w-full'>
+            <Text className='text-[18px]'>project 1</Text>
+            <View className='flex-row gap-12'>
+              <Text>1</Text>
+              <Text>2</Text>
+              <Text>3</Text>
+            </View>
           </View>
-        </View>
-        <Text className='text-[18px] mt-2'>project name</Text>
-        <Text>project name</Text>
-        <Text className='text-[18px] mt-2'>project description</Text>
-        <Text>project description</Text>
-        <Text className='text-[18px] mt-2'>images</Text>
-        <View className='w-full h-[200px] bg-slate-600'></View>
-        <ScrollView horizontal className='mt-3 '>
-          <View className='w-[100px] h-[100px] bg-slate-500 mr-3'></View>
-          <View className='w-[100px] h-[100px] bg-slate-500 mr-3'></View>
-          <View className='w-[100px] h-[100px] bg-slate-500 mr-3'></View>
-        </ScrollView>
-        <Text className='text-[18px] mt-2'>project duration</Text>
-        <Text>project duration</Text>
-        <Text className='text-[18px] mt-2'>project position</Text>
-        <Text>project position</Text>
+          <Text className='text-[18px] mt-2'>project name</Text>
+          <Text>project name</Text>
+          <Text className='text-[18px] mt-2'>project description</Text>
+          <Text>project description</Text>
+          <Text className='text-[18px] mt-2'>images</Text>
+          <View className='w-full h-[200px] bg-slate-600'></View>
+          <ScrollView horizontal className='mt-3 '>
+            <View className='w-[100px] h-[100px] bg-slate-500 mr-3'></View>
+            <View className='w-[100px] h-[100px] bg-slate-500 mr-3'></View>
+            <View className='w-[100px] h-[100px] bg-slate-500 mr-3'></View>
+          </ScrollView>
+          <Text className='text-[18px] mt-2'>project duration</Text>
+          <Text>project duration</Text>
+          <Text className='text-[18px] mt-2'>project position</Text>
+          <Text>project position</Text>
+        
+          
+    </View>*/}
         <View className='w-screen mt-8'>
           <CustomButton text='add contact' handleClick={()=>{addContact()}}/>
         </View>
-        
-      </View>
     </ScrollView>
   )
 }

@@ -16,7 +16,7 @@ const SpecialisteCard = ({name,specialite,hourlyPrice,id,image}:any)=>{
                 </View>
                 <View className='flex-row justify-between pb-1'>
                     <Text className='text-[#009245]'>see more...</Text>
-                    <Text className='text-[16px]'>{hourlyPrice}DA</Text>
+                    <Text className='text-[16px]'>{hourlyPrice}</Text>
                 </View>
             </View>
             
@@ -25,8 +25,14 @@ const SpecialisteCard = ({name,specialite,hourlyPrice,id,image}:any)=>{
 }
 const SearchSpeacilits = () => {
   const [specialistList, setspecialistList] = useState([]);
+  const [name, setname] = useState('');
   async function getSpecialist() {
     const {data} = await axiosInstance.get('/specialistes');
+    setspecialistList(data.specialistes)
+  }
+  async function getSpecalistesByName(name:string){
+    
+    const {data} = await axiosInstance.get(`/specialistesByName/${name}`);
     setspecialistList(data.specialistes)
   }
   useEffect(()=>{
@@ -36,14 +42,14 @@ const SearchSpeacilits = () => {
     <ScrollView className='bg-white'>
       <Text className='text-[40px] ml-[25px] mt-6 mb-6'>Specialistes</Text>
       <View>
-        <TextInput className='border-2 border-[#009245] mx-3 text-[16px] p-2 rounded-full relative'/>
-        <View className='bg-[#009245] w-[40px] h-[40px] rounded-full absolute right-4 top-1 flex justify-center items-center'>
+        <TextInput onChangeText={(e)=>setname(e)} className='border-2 border-[#009245] mx-3 text-[16px] p-2 rounded-full relative'/>
+        <TouchableOpacity onPress={()=>getSpecalistesByName(name)} className='bg-[#009245] w-[40px] h-[40px] rounded-full absolute right-4 top-1 flex justify-center items-center'>
           <AntDesign name="search1" size={28} color="white" />
-        </View>
+        </TouchableOpacity>
       </View>
       <View className='px-3 py-8 flex-row justify-center flex-wrap'>
         {
-          specialistList && specialistList.map((e:any,i:number)=><SpecialisteCard image={e.user.avatar?.url} id={e._id} name='amine dje' specialite='engeneer' hourlyPrice='2539' key={i}/>)
+          specialistList && specialistList.map((e:any,i:number)=><SpecialisteCard image={e.user.avatar?.url} id={e._id} name={e.user.firstName+' '+e.user.lastName} specialite={e.specialite} hourlyPrice='' key={i}/>)
         }      
       </View>
     </ScrollView>

@@ -1,23 +1,42 @@
 import { View, Text, ScrollView, Image, TextInput,TouchableOpacity } from 'react-native'
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import CustomButton from '@/components/Button';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import axiosInstance from '@/utils/axios';
-import { router } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons';
-
-
 type Props = {}
 
-const PlantCreate= (props: Props) => {
+const PlantEdit = (props: Props) => {
+    const {id} = useLocalSearchParams();
+    const [plant, setPlant] = useState<any>({})
     const [image, setImage] = useState<any>();
     const [name, setname] = useState('');
     const [description, setdescription] = useState('');
-    const [price, setprice] = useState('')
-    const [quantity, setquantity] = useState('')
+    const [price, setprice] = useState(0)
+    const [quantity, setquantity] = useState(0)
     const [images, setimages] = useState<any>([]);
-    const [buttonText, setbuttonText] = useState('create')
+   
+    async function getPlant(){
+      const {data} = await axiosInstance.get(`/plant/${id}`);
+      console.log(data.plant)
+      setImage(data.plant.image.url);
+      setname(data.plant.name);
+      setdescription(data.plant.description);
+      setprice(data.plant.price);
+      setquantity(data.plant.quantity);
+      setimages(data.plant.images);
+    }
+    useEffect(()=>{
+      getPlant()
+      
+    },[]);
+    async function updatePlant(id:any) {
+        
+    }
+    
+    const [buttonText, setbuttonText] = useState('edit')
     const pickImage = async () => {
         let result : any = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -69,19 +88,19 @@ const PlantCreate= (props: Props) => {
       };
 
 
-      async function createPlant(){
-        setbuttonText('is creating')
-        const {data} = await axiosInstance.post('/plant',{name, description, price, images, quantity,image })
+      async function editPlant(id:any){
+        setbuttonText('is editing')
+        const {data} = await axiosInstance.put(`/plant/${id}`,{name, description, price, images, quantity,image })
         console.log(data);
         if(data.plant){
-            setbuttonText('created')
+            setbuttonText('edited')
         }
       }
      
 
   return (
     <ScrollView className='bg-white'>
-      <Text className='text-[40px] ml-[25px] mt-16 mb-6'>Create Plant</Text>
+      <Text className='text-[40px] ml-[25px] mt-16 mb-6'>Edit Plant</Text>
       <View>
             <View className='w-full px-3 mb-3'>
                 <View className='flex-row gap-2 items-center'>
@@ -105,14 +124,14 @@ const PlantCreate= (props: Props) => {
                     <View className='w-4 h-4 bg-black rounded-full'></View>
                     <Text className='text-[24px]'>Price</Text>
                 </View>
-                <TextInput multiline value={price} keyboardType='numeric' onChangeText={(e)=>setprice(e)} placeholder='what is the price of the plant' className='ml-8 mt-2 text-[18px]'/>
+                <TextInput multiline value={price.toString()} keyboardType='numeric' onChangeText={(e:any)=>setprice(e)} placeholder='what is the price of the plant' className='ml-8 mt-2 text-[18px]'/>
             </View>
             <View className='w-full px-3 mb-3'>
                 <View className='flex-row gap-2 items-center'>
                     <View className='w-4 h-4 bg-black rounded-full'></View>
                     <Text className='text-[24px]'>Quantity</Text>
                 </View>
-                <TextInput multiline value={quantity} keyboardType='numeric' onChangeText={(e)=>setquantity(e)} placeholder='what is the quantity of the plant' className='ml-8 mt-2 text-[18px]'/>
+                <TextInput multiline value={quantity.toString()} keyboardType='numeric' onChangeText={(e:any)=>setquantity(e)} placeholder='what is the quantity of the plant' className='ml-8 mt-2 text-[18px]'/>
             </View>
             <View className='w-full px-3 mb-3'>
                 <View className='flex-row gap-2 items-center'>
@@ -127,7 +146,7 @@ const PlantCreate= (props: Props) => {
                     <Text className='text-[24px]'>images</Text>
                 </View>
                 <ScrollView horizontal className='flex-row gap-2 mt-2 h-[90px]'>
-                    {images && images.map((e:any,i:number)=><Image key={i} source={{uri:e}} className='w-[80px] h-[80px] bg-red-500'/>)}
+                    {images && images.map((e:any)=><Image source={{uri:e.url}} className='w-[80px] h-[80px] bg-red-500'/>)}
                     
                     <TouchableOpacity className='w-[80px] h-[80px] flex-row items-center' onPress={pickImages}>
                       <Ionicons name="add-circle-outline" size={30} color="#009245" />
@@ -136,12 +155,11 @@ const PlantCreate= (props: Props) => {
             </View>
         </View>
         <View className='w-full flex-row justify-center mb-16'>
-            <CustomButton handleClick={createPlant} text={buttonText}/>
+            <CustomButton handleClick={()=>editPlant(id)} text={buttonText}/>
         </View>
      
     </ScrollView>
   )
 }
 
-export default PlantCreate
-
+export default PlantEdit
