@@ -2,13 +2,12 @@ import axios from "axios";
 import * as expoSecureStore from 'expo-secure-store';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://192.168.1.5:8000',
+  baseURL: 'https://server-2wfe.onrender.com',
 });
 
 axiosInstance.interceptors.request.use(
   async function (config) {
     const refreshToken = await expoSecureStore.getItemAsync('refreshToken');
-    console.log(refreshToken)
     if (refreshToken) {
       config.headers.refreshToken = `Bearer ${refreshToken}`;
     }

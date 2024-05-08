@@ -36,7 +36,7 @@ const index = () => {
 
   async function getToken(){
     const Token : string | any = await expoSecureStore.getItemAsync('refreshToken');
-    console.log(Token)
+    console.log('token is' + Token)
     settoken(Token) 
     router.push(isTokenValid(Token) ? '/shop/plants':'/(auth)/login')
   }
@@ -45,7 +45,9 @@ const index = () => {
     
   },[])
   return (
-         <Redirect href={token ?'/shop/plants':'/(auth)/login'}/> 
+        <>
+          
+        </>
   )
 }
 

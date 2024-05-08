@@ -27,10 +27,11 @@ const Signup = () => {
     location : ''
 
   })
-
+  const [errorMessage, seterrorMessage] = useState('');
   
   async function signup(){
-    const {data} = await axios.post('http://192.168.1.7:8000/signup',{user})
+    
+    const {data} = await axios.post('https://server-2wfe.onrender.com/signup',{user})
       if(data){
         const {token} = data ;
         console.log(token);
@@ -38,6 +39,8 @@ const Signup = () => {
         saveInStore('jwt',token)
         router.push("/confirme")
       }
+
+      
       
     
 

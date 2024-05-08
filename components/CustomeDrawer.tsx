@@ -14,14 +14,17 @@ import { MaterialIcons } from '@expo/vector-icons';
     const [image, setimage] = useState('')
     async function getUser(){
       const userInJson : any = await expoSecureStore.getItemAsync('user');
+      !userInJson && router.push('/(auth)/login')
       const parsedUser = JSON.parse(userInJson);
       setname(parsedUser.firstName+" "+parsedUser.lastName)
       setimage(parsedUser.avatar.url)
     }
     async function logout() {
       console.log('logged out')
-      router.push('/(auth)/login')
       await expoSecureStore.deleteItemAsync('user');
+      await expoSecureStore.deleteItemAsync('refreshToken');
+      await expoSecureStore.deleteItemAsync('accessToken');
+      router.push('/(auth)/login')
       
     }
     useEffect(()=>{

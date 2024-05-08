@@ -14,13 +14,13 @@ const MyAccount = (props: Props) => {
     const [image, setImage] = useState<string>('')
     const [firstName, setFirstName] = useState('');
     const [lastName, setlastName] = useState('');
-    const [birthday, setbirthday] = useState<any>(null);
     const [location, setlocation] = useState('');
     const [email, setemail] = useState('');
     const [password, setpassword] = useState('');
     const [phoneNumber, setphoneNumber] = useState('');
-    const [user, setuser] = useState<any>({})
+    const [isImageChanged, setisImageChanged] = useState(false)
     const pickImage = async () => {
+        setisImageChanged(true)
         let result : any = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.All,
           allowsEditing: true,
@@ -49,12 +49,12 @@ const MyAccount = (props: Props) => {
         setlastName(parsedUser.lastName)
         setemail(parsedUser.email)
         setpassword(parsedUser.password)
-        setbirthday(parsedUser.birthday)
+        
         setphoneNumber(parsedUser.phoneNumber)
       }
       async function updateUser() {
         const {data} = await axiosInstance.put("user_information",{firstName,lastName,email,password,location,phoneNumber})
-        await axiosInstance.put("user_avatar",{avatar:image})  
+        isImageChanged && await axiosInstance.put("user_avatar",{avatar:image})  
         const userInJson =  JSON.stringify(data.user);
         await expoSecureStore.setItemAsync('user',userInJson);
         console.log(data);

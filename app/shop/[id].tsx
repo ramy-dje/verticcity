@@ -175,7 +175,7 @@ const plantDetails = () => {
         </View>
         <View className='flex-row justify-between items-center'>
           <Text className='text-[24px] my-3'>Reviews</Text>
-          <TouchableOpacity onPress={()=>setisCommenting(false)}>
+          <TouchableOpacity onPress={()=>setisCommenting(true)}>
             <Image
               source={require('../../assets/icons/addComment.png')}
               className='w-[23px] h-[23px]  mt-1 '
