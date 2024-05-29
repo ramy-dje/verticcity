@@ -73,6 +73,17 @@ const _layout = (props: Props) => {
           headerTitle:'',
         }}
         />
+         <Drawer.Screen 
+        
+        name='mySales'
+        options={{
+          drawerIcon:({ color, size })=><MaterialCommunityIcons name="cart-arrow-up"size={size} color={color} />,
+          drawerItemStyle: { display:role && role == 'seller'?'flex' :'none' },
+          headerTintColor:'#009245',
+          headerTitle:'',
+        }}
+        />
+
         <Drawer.Screen 
         name='myblog'
         options={{
@@ -83,12 +94,7 @@ const _layout = (props: Props) => {
           headerShown:pathName == '/myblog/blogs',
         }}
         />
-        <Drawer.Screen 
-        name='mySales'
-        options={{
-          drawerItemStyle: { display: 'none' },
-        }}
-        />
+       
         <Drawer.Screen 
         name='cart'
         options={{

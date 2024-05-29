@@ -2,7 +2,7 @@ import axios from "axios";
 import * as expoSecureStore from 'expo-secure-store';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://server-2wfe.onrender.com',
+  baseURL: 'http://192.168.1.10:8000',
 });
 
 axiosInstance.interceptors.request.use(

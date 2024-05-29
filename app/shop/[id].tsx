@@ -32,7 +32,7 @@ const BlogComment = ({firstName,lastName,comment,image,commentId,id}:any)=>{
   )
 }
 
-const AddBlogComment = ({setisCommenting,id}:any)=>{
+const AddBlogComment = ({setisCommenting,id,getPlant}:any)=>{
   const [review, setreview] = useState<string>('')
   const [user, setuser] = useState<any>({})
   async function getUser(){
@@ -46,6 +46,8 @@ const AddBlogComment = ({setisCommenting,id}:any)=>{
   },[])
   async function sendComment() {
     const {data} = await axiosInstance.put(`plant_review/${id}`,{review});
+    getPlant()
+    console.log('clickck')
     setisCommenting(false);
   }
   return (
@@ -60,7 +62,7 @@ const AddBlogComment = ({setisCommenting,id}:any)=>{
       </View>
       <TextInput className='text-[16px] ' onChangeText={(e:any)=>setreview(e )} multiline placeholder='add your comment here'/>
      <View className='flex-row justify-end w-full'>
-        <TouchableOpacity className='h-[30px] w-[70px] rounded-[4px] bg-[#009245] flex justify-center items-center z-20' onPress={sendComment} >
+        <TouchableOpacity className='h-[30px] w-[70px] rounded-[4px] bg-[#009245] flex justify-center items-center z-50' onPress={sendComment} >
           <Text className='text-[14px] text-white font-bold'>send</Text>
         </TouchableOpacity>
      </View>
@@ -186,7 +188,7 @@ const plantDetails = () => {
         {
           isCommenting && (
             <View>
-                <AddBlogComment id={id} setisCommenting={()=>setisCommenting(false)}/> 
+                <AddBlogComment id={id}  getPlant={getPlant} setisCommenting={setisCommenting}/> 
             </View>
           )
         }

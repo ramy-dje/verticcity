@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View,ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import CustomTextInput from '@/components/TextInput'
 import CustomButton from '@/components/Button'
@@ -10,17 +10,25 @@ import * as expoSecureStore from 'expo-secure-store'
 const Login = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [isLoading, setisLoading] = useState(false);
+  const [errorMessage, seterrorMessage] = useState('');
   async function login(){
-    const {data} =await axios.post('https://server-2wfe.onrender.com/login',{email,password});
-    const {user} = data;
-    console.log(user)
-    const {accessToken} = data ;
-    const {refreshToken} = data ;
-    const userInJson =  JSON.stringify(user);
-    await expoSecureStore.setItemAsync('refreshToken', refreshToken);
-    await expoSecureStore.setItemAsync('accessToken',accessToken);
-    await expoSecureStore.setItemAsync('user',userInJson);
-    router.push("/shop/plants")
+    setisLoading(true)
+    const {data} =await axios.post('http://192.168.1.10:8000/login',{email,password});
+    console.log(data)
+    if(data.success){
+      const {user} = data;
+      const {accessToken} = data ;
+      const {refreshToken} = data ;
+      const userInJson =  JSON.stringify(user);
+      await expoSecureStore.setItemAsync('refreshToken', refreshToken);
+      await expoSecureStore.setItemAsync('accessToken',accessToken);
+      await expoSecureStore.setItemAsync('user',userInJson);
+      router.push("/shop/plants")
+    }else{
+      seterrorMessage(data.message)
+    }
+    setisLoading(false)
   } 
   return (
     <View className='relative bg-white h-full pt-4'>
@@ -43,10 +51,15 @@ const Login = () => {
         value={password} 
         isPassword={true}
         />
+        {isLoading?
+        <ActivityIndicator className='' color={'#009245'}/>
+        :
         <CustomButton
         text='Login'
         handleClick={login}  
-        />
+        />}
+        {errorMessage && <Text className='mt-3 text-red-700'>{errorMessage} </Text>}
+      
         <Text className='mt-3'>you don't have an account ? <Link href='/Signup' className='text-[#009245]'>Sign up</Link></Text>
       </View>
     </View>

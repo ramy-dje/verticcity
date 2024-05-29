@@ -2,7 +2,7 @@ import { Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View ,Fl
 import React, { useEffect, useState } from 'react'
 import * as expoSecureStore from 'expo-secure-store'
 import CustomButton from '@/components/Button'
-import { useNavigation } from 'expo-router'
+import { Link, useNavigation } from 'expo-router'
 import axiosInstance from '@/utils/axios'
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -50,8 +50,11 @@ const CartItem = ({id,image,name,price,quantity,setcart}:ICartItem)=>{
     try {
       const existingCart = await getCart();
       if (existingCart) {
-        const updatedCart = existingCart.map((item:any) =>
-          item.id === productId ? { ...item, quantity: newQuantity } : item
+        const updatedCart = existingCart.map((item:any) =>{
+          newQuantity < 1 && deleteFromCart(item.id,setcart)
+          return item.id === productId ? { ...item, quantity: newQuantity } : item
+        }
+          
         );
         setcart(updatedCart)
         console.log(updatedCart)
@@ -164,7 +167,7 @@ const Cart = () => {
         className='h-[60px] w-[90%] rounded-[13px] mt-3 border-2 border-[#009245]  flex justify-center items-center z-20'
         onPress={()=>{}}
         >
-          <Text className='text-[30px] text-[#009245] font-bold'>continue shopping</Text>
+          <Link href={'/shop'}><Text className='text-[30px] text-[#009245] font-bold'>continue shopping</Text></Link>
         </TouchableOpacity>
       </View>
         <View className='h-32 w-full '></View>

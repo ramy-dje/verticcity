@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View ,SafeAreaView ,KeyboardAvoidingView, ScrollView} from 'react-native'
+import { Image, StyleSheet, Text, View ,SafeAreaView ,KeyboardAvoidingView, ScrollView,ActivityIndicator} from 'react-native'
 import React, { useState, useEffect } from 'react';
 import CustomeTextInput from '@/components/TextInput'
 import CustomButton from '@/components/Button'
@@ -28,17 +28,21 @@ const Signup = () => {
 
   })
   const [errorMessage, seterrorMessage] = useState('');
+  const [isLoading, setisLoading] = useState(false)
   
   async function signup(){
-    
-    const {data} = await axios.post('https://server-2wfe.onrender.com/signup',{user})
-      if(data){
+    setisLoading(true);
+    const {data} = await axios.post('http://192.168.1.10:8000/signup',{user})
+      if(data.success){
         const {token} = data ;
         console.log(token);
         console.log('token')
         saveInStore('jwt',token)
         router.push("/confirme")
+      }else{
+        seterrorMessage(data.message)
       }
+      setisLoading(false)
 
       
       
@@ -86,10 +90,14 @@ const Signup = () => {
           value={user.password} 
           isPassword={true}
           />
+          {isLoading?
+          <ActivityIndicator className='' color={'#009245'}/>
+          :
           <CustomButton
           text='Signup'
           handleClick={signup}  
-          />
+          />}
+          {errorMessage && <Text className='mt-3 text-red-700'>{errorMessage} </Text>}
           <Text className='mt-3'>you already have an account ? <Link href='/login' className='text-[#009245]  '>login</Link></Text>
         </KeyboardAvoidingView>
       </View>
