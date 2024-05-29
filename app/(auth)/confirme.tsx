@@ -13,7 +13,7 @@ const ConfirmeAccount = (props: Props) => {
     const [activationCode, setactivationCode] = useState<number>();
     async function confirme(){
       const jwt = await expoSecureStore.getItemAsync('jwt')
-      const {data} = await axios.post('http://192.168.1.10:8000/active',{activationCode},{headers:{  'jwt':`Bearer ${jwt}`} as any })
+      const {data} = await axios.post('https://server-2wfe.onrender.com/active',{activationCode},{headers:{  'jwt':`Bearer ${jwt}`} as any })
       const {user} = data;
       const {accessToken} = data ;
       const {refreshToken} = data ;

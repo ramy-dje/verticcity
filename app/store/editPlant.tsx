@@ -72,7 +72,7 @@ const PlantEdit = (props: Props) => {
     
         const convertImageToBase64 = async (uri : any) => {
           const response = await FileSystem.readAsStringAsync(uri, { encoding: FileSystem.EncodingType.Base64 });
-          setimages([...images,`data:image/jpeg;base64,${response}`]);
+          setimages((e:any)=>[...e,`data:image/jpeg;base64,${response}`]);
           return response;
         };
         
@@ -146,7 +146,7 @@ const PlantEdit = (props: Props) => {
                     <Text className='text-[24px]'>images</Text>
                 </View>
                 <ScrollView horizontal className='flex-row gap-2 mt-2 h-[90px]'>
-                    {images && images.map((e:any)=><Image source={{uri:e.url}} className='w-[80px] h-[80px] bg-red-500'/>)}
+                    {images && images.map((e:any)=><Image source={{uri:e.url ?e.url : e }} className='w-[80px] h-[80px] bg-red-500'/>)}
                     
                     <TouchableOpacity className='w-[80px] h-[80px] flex-row items-center' onPress={pickImages}>
                       <Ionicons name="add-circle-outline" size={30} color="#009245" />

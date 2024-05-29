@@ -14,7 +14,7 @@ const Login = () => {
   const [errorMessage, seterrorMessage] = useState('');
   async function login(){
     setisLoading(true)
-    const {data} =await axios.post('http://192.168.1.10:8000/login',{email,password});
+    const {data} =await axios.post('https://server-2wfe.onrender.com/login',{email,password});
     console.log(data)
     if(data.success){
       const {user} = data;
